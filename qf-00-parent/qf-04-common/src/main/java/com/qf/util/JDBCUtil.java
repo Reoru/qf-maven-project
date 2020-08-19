@@ -30,8 +30,8 @@ public class JDBCUtil {
         try {
             properties.load(is);
             username = properties.getProperty(PropertyConst.USER_NAME);
-            password = properties.getProperty(PropertyConst.USER_NAME);
-            url = properties.getProperty(PropertyConst.USER_NAME);
+            password = properties.getProperty(PropertyConst.PASS_WORD);
+            url = properties.getProperty(PropertyConst.URL);
 
             if (username != null && password != null && url != null) {
                 Class.forName("com.mysql.jdbc.Driver");
