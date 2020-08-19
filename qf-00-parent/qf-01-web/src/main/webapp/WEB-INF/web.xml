@@ -4,15 +4,25 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
+    <filter>
+        <filter-name>baseFilter</filter-name>
+        <filter-class>com.qf.filter.DispatcherFilter</filter-class>
+    </filter>
 
-    <servlet>
-        <servlet-name>logins</servlet-name>
-        <servlet-class>com.qf.controller.LoginController</servlet-class>
-    </servlet>
+    <filter-mapping>
+        <filter-name>baseFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
-    <servlet-mapping>
-        <servlet-name>logins</servlet-name>
-        <url-pattern>/login</url-pattern>
-    </servlet-mapping>
+    <!--
+        <servlet>
+            <servlet-name>logins</servlet-name>
+            <servlet-class>com.qf.controller.LoginController</servlet-class>
+        </servlet>
+
+        <servlet-mapping>
+            <servlet-name>logins</servlet-name>
+            <url-pattern>/login</url-pattern>
+        </servlet-mapping>-->
 </web-app>
         

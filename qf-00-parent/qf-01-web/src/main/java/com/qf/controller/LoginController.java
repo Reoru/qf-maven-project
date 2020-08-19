@@ -16,6 +16,7 @@ import java.io.IOException;
  * @date 2020/8/19 0019 下午 16:30
  */
 
+@WebServlet("/login")
 public class LoginController extends HttpServlet {
     private LoginService loginService = new LoginServiceImpl();
 
@@ -26,7 +27,9 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("this is login...");
+        System.out.println("this is login----");
+        // 获取前台的用户名密码
+
         loginService.queryUser();
     }
 }
