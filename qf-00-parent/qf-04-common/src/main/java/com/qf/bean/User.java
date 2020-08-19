@@ -11,8 +11,12 @@ public class User {
     private Integer id;
     private String username;
     private String password;
+    private Integer logout;
     // 购物车
     private List<Goods> goodslist;
+
+
+
 
     public Integer getId() {
         return id;
@@ -38,6 +42,14 @@ public class User {
         this.password = password;
     }
 
+    public Integer getLogout() {
+        return logout;
+    }
+
+    public void setLogout(Integer logout) {
+        this.logout = logout;
+    }
+
     public List<Goods> getGoodslist() {
         return goodslist;
     }
@@ -52,6 +64,7 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", logout=" + logout +
                 ", goodslist=" + goodslist +
                 '}';
     }

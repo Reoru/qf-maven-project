@@ -7,6 +7,7 @@ import com.qf.util.JDBCUtil;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 /**
  * @author RRReoru
@@ -16,11 +17,8 @@ import java.sql.Statement;
 public class LoginDAOImpl implements LoginDAO {
     @Override
     public User selectUser(String username, String password) {
-        //执行sql
-        JDBCUtil.executeSql(User.class,"select * from tb_user where username = ? and password = ?",username,password);
-        // 获取结果集
-//        ResultSet reson = JDBCUtil.getReson();
-
-        return null;
+        //执行sql，返回结果
+        List list = JDBCUtil.executeSql(User.class, "select * from tb_user where username = ? and password = ?", username, password);
+        return (User) list.get(0);
     }
 }

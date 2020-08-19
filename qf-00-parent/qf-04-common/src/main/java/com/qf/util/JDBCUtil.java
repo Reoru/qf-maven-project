@@ -24,6 +24,7 @@ public class JDBCUtil<T> {
     private static Connection connection;
     private static Statement statement;
     private static List resultList = new ArrayList();
+    private static Map<String, Integer> columnMap = new HashMap<>();
 
     // 私有化构造
     private JDBCUtil() {
@@ -114,7 +115,6 @@ public class JDBCUtil<T> {
 
     private static <T> void collectList(Class<T> clazz, ResultSet res) {
         try {
-            Map<String, Integer> columnMap = new HashMap<>();
             // 准备获取字段名，根据字段名来映射实体类属性，完成反射封装
             ResultSetMetaData metaData = res.getMetaData();
             int index = 1;

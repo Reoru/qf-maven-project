@@ -1,5 +1,8 @@
 package com.qf.filter;
 
+import com.qf.bean.User;
+import com.qf.constant.PropertyConst;
+
 import javax.annotation.processing.Filer;
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
@@ -25,25 +28,19 @@ public class DispatcherFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         String uri = req.getRequestURI();
         String autoLogin = req.getParameter("autoLogin");
-        System.out.println("auto:------>" + autoLogin);
-
+        System.out.println("uri:------>" + uri);
         // 检测是否是登录页面的请求
-        if ("/login".equals(uri)) {
+        if (uri != null && uri.contains("/login")) {
+            System.out.println("uri为登录请求，正在转入登录页面....");
             filterChain.doFilter(req, resp);
             return;
         } else {
             //取出session中保存的用户信息，以便自动登录
-            Cookie[] cookies = req.getCookies();
-            System.out.println("session = " + req.getSession());
-            if (Objects.nonNull(cookies)) {
-                for (Cookie cookie : cookies) {
-                    System.out.println("cookie=name：" + cookie.getName() + ",value=" + cookie.getValue());
-                    if (req.getSession().getAttribute(cookie.getName()) != null) {
-                        System.out.println("找到指定的cookie,放行...");
-                        filterChain.doFilter(req, resp);
-                        return;
-                    }
-                }
+            User userInfo = (User) req.getSession().getAttribute(PropertyConst.USER_INFO);
+            if (userInfo != null) {
+                System.out.println("已登录，放行...");
+                filterChain.doFilter(req, resp);
+                return;
             }
         }
 

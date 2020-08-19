@@ -1,5 +1,6 @@
 package com.qf.test;
 
+import com.qf.bean.Goods;
 import com.qf.bean.User;
 import com.qf.util.JDBCUtil;
 import org.junit.Test;
@@ -16,9 +17,5 @@ public class DemoTest {
 
     @Test
     public void test01() {
-        Connection connection = JDBCUtil.getConnection();
-        List list = JDBCUtil.executeSql(User.class, "select * from tb_user");
-        System.out.println(list);
-
     }
 }

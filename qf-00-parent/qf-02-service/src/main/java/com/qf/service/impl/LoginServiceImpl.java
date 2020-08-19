@@ -15,6 +15,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public User queryUser(String username, String password) {
+        // 根据用户名密码查询用户并返回
         return loginDAO.selectUser(username,password);
     }
 }

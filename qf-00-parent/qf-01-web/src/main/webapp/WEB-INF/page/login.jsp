@@ -14,7 +14,7 @@
 <form action="${pageContext.request.contextPath}/login" method="post">
     <h4>username:</h4> <input type="text" name="username"/><br/>
     <h4>password: </h4><input type="password" name="password"/><br/>
-    <input type="checkbox" name="autoLogin"> remember me<br/>
+    <input type="checkbox" name="autoLogin" > remember me<br/>
     <input type="submit" value="login"/>
 
 </form>
