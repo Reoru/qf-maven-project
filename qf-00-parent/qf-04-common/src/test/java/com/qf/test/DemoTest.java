@@ -3,7 +3,7 @@ package com.qf.test;
 import com.qf.util.JDBCUtil;
 import org.junit.Test;
 
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * @author RRReoru
@@ -13,8 +13,28 @@ import java.sql.Statement;
 public class DemoTest {
 
     @Test
-    public void test01(){
-        Statement statement = JDBCUtil.getStatement();
-        System.out.println(statement);
+    public void test01() {
+        Connection connection = JDBCUtil.getConnection();
+        try {
+            PreparedStatement p = connection.prepareStatement("select * from tb_user");
+            p.execute();
+            int index = 1;
+            ResultSet resultSet = p.getResultSet();
+            ResultSetMetaData metaData = p.getMetaData();
+
+            while (index <= metaData.getColumnCount()) {
+                String columnName = metaData.getColumnName(index++);
+                System.out.println("字段名：" + columnName);
+            }
+
+            index = 1;
+            while (resultSet.next()) {
+                System.out.println("值："+resultSet.getObject(index++) + " , " + resultSet.getObject(index++));
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

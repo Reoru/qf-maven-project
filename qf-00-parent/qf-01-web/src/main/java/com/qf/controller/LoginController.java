@@ -1,10 +1,12 @@
 package com.qf.controller;
 
+import com.qf.bean.User;
 import com.qf.service.LoginService;
 import com.qf.service.impl.LoginServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +31,11 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("this is login----");
         // 获取前台的用户名密码
+        System.out.println("LoginServlet.doGet");
 
-        loginService.queryUser();
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        loginService.queryUser(username,password);
+
     }
 }

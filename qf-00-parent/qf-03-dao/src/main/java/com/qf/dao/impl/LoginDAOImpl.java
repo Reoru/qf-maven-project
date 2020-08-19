@@ -15,16 +15,12 @@ import java.sql.Statement;
  */
 public class LoginDAOImpl implements LoginDAO {
     @Override
-    public User selectUser() {
-        Statement statement = JDBCUtil.getStatement();
-        try {
-            ResultSet resultSet = statement.executeQuery("select * from tbl_student");
-            while (resultSet.next()) {
-                System.out.println(resultSet.getObject(1));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public User selectUser(String username, String password) {
+        //执行sql
+        JDBCUtil.executeSql(User.class,"select * from tb_user where username = ? and password = ?",username,password);
+        // 获取结果集
+//        ResultSet reson = JDBCUtil.getReson();
+
         return null;
     }
 }

@@ -14,7 +14,7 @@ public class LoginServiceImpl implements LoginService {
     private LoginDAO loginDAO = new LoginDAOImpl();
 
     @Override
-    public User queryUser() {
-        return loginDAO.selectUser();
+    public User queryUser(String username, String password) {
+        return loginDAO.selectUser(username,password);
     }
 }

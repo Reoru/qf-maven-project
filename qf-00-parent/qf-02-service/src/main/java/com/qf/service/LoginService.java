@@ -11,6 +11,8 @@ public interface LoginService {
     /**
      * 查询用户信息
      * @return
+     * @param username
+     * @param password
      */
-    User queryUser();
+    User queryUser(String username, String password);
 }

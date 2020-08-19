@@ -24,6 +24,8 @@ public class DispatcherFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         String uri = req.getRequestURI();
+        String autoLogin = req.getParameter("autoLogin");
+        System.out.println("auto:------>" + autoLogin);
 
         // 检测是否是登录页面的请求
         if ("/login".equals(uri)) {

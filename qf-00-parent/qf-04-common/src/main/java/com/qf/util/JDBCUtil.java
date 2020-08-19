@@ -4,8 +4,14 @@ import com.qf.constant.PropertyConst;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
+import java.util.concurrent.Callable;
 
 /**
  * @author RRReoru
@@ -18,6 +24,7 @@ public class JDBCUtil {
     private static String url;
     private static Connection connection;
     private static Statement statement;
+    private static List resultList;
 
     // 私有化构造
     private JDBCUtil() {
@@ -79,5 +86,59 @@ public class JDBCUtil {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void executeSql(Class<?> clazz, String sql, Object... params) {
+        try {
+            // 每次请求创建一次预编译对象
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            int index = 1;
+            for (Object param : params) {
+                preparedStatement.setObject(index++, param);
+            }
+            // 执行sql
+            preparedStatement.execute();
+            ResultSet resultSet = preparedStatement.getResultSet();
+            if (resultSet != null) {
+//                resultSet.get
+            }
+
+            // 用完关闭
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void collectList(Class<?> clazz, ResultSet res) {
+        try {
+            ArrayList<String> columnList = new ArrayList<>();
+            // 准备获取字段名，根据字段名来映射实体类属性，完成反射封装
+            ResultSetMetaData metaData = res.getMetaData();
+            int index = 1;
+            while (index <= metaData.getColumnCount()) {
+                columnList.add(metaData.getColumnName(index++));
+            }
+            // 将所有字段封装进集合中
+            Field[] declaredFields = clazz.getDeclaredFields();
+            for (Field field : declaredFields) {
+                if (columnList.contains(field.getName())) {
+//                    clazz.getDeclaredMethod("set");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+
+
+    public static Connection getConnection() {
+        return connection;
     }
 }

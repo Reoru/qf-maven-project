@@ -8,5 +8,5 @@ import com.qf.bean.User;
  * @date 2020/8/19 0019 下午 17:06
  */
 public interface LoginDAO {
-    User selectUser();
+    User selectUser(String username, String password);
 }
