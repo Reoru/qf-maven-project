@@ -10,7 +10,6 @@
 
   <name>qf-02-service</name>
   <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,7 +25,11 @@
       <scope>test</scope>
     </dependency>
 
-
+    <dependency>
+      <groupId>qf.project.dao</groupId>
+      <artifactId>qf-03-dao</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
 
   </dependencies>
 

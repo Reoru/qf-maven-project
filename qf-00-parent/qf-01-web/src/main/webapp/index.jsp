@@ -13,6 +13,6 @@
 <body>
 
 <h1>index page</h1>
-
+<a href="${pageContext.request.contextPath}/login">to login</a>
 </body>
 </html>
