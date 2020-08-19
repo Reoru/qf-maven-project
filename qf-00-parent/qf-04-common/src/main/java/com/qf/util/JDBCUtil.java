@@ -2,15 +2,14 @@ package com.qf.util;
 
 import com.qf.constant.PropertyConst;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 /**
@@ -18,13 +17,13 @@ import java.util.concurrent.Callable;
  * @version 1.0
  * @date 2020/8/19 0019 下午 16:46
  */
-public class JDBCUtil {
+public class JDBCUtil<T> {
     private static String username;
     private static String password;
     private static String url;
     private static Connection connection;
     private static Statement statement;
-    private static List resultList;
+    private static List resultList = new ArrayList();
 
     // 私有化构造
     private JDBCUtil() {
@@ -88,7 +87,7 @@ public class JDBCUtil {
         }
     }
 
-    public static void executeSql(Class<?> clazz, String sql, Object... params) {
+    public static <T> List executeSql(Class<T> clazz, String sql, Object... params) {
         try {
             // 每次请求创建一次预编译对象
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -100,7 +99,7 @@ public class JDBCUtil {
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
             if (resultSet != null) {
-//                resultSet.get
+                collectList(clazz, resultSet);
             }
 
             // 用完关闭
@@ -108,34 +107,52 @@ public class JDBCUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return resultList;
     }
 
 
-    public static void collectList(Class<?> clazz, ResultSet res) {
+    private static <T> void collectList(Class<T> clazz, ResultSet res) {
         try {
-            ArrayList<String> columnList = new ArrayList<>();
+            Map<String, Integer> columnMap = new HashMap<>();
             // 准备获取字段名，根据字段名来映射实体类属性，完成反射封装
             ResultSetMetaData metaData = res.getMetaData();
             int index = 1;
             while (index <= metaData.getColumnCount()) {
-                columnList.add(metaData.getColumnName(index++));
+                //完成列名与位置索引的映射
+                int temp = index;
+                columnMap.put(metaData.getColumnName(index++), temp);
             }
-            // 将所有字段封装进集合中
+
+            System.out.println(columnMap);
+
             Field[] declaredFields = clazz.getDeclaredFields();
-            for (Field field : declaredFields) {
-                if (columnList.contains(field.getName())) {
-//                    clazz.getDeclaredMethod("set");
+            while (res.next()) {
+                // 每行映射一个对象
+                T object = clazz.newInstance();
+                for (Field field : declaredFields) {
+                    if (columnMap.containsKey(field.getName())) {
+                        // 如果有对应映射字段，那么就进行属性赋值s
+                        Method setMethod = clazz.getDeclaredMethod("set" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1), res.getObject(columnMap.get(field.getName())).getClass());
+                        setMethod.invoke(object, res.getObject(columnMap.get(field.getName())));
+                    }
                 }
+
+                resultList.add(object);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
         }
-
-
     }
-
-
 
 
     public static Connection getConnection() {

@@ -1,9 +1,11 @@
 package com.qf.test;
 
+import com.qf.bean.User;
 import com.qf.util.JDBCUtil;
 import org.junit.Test;
 
 import java.sql.*;
+import java.util.List;
 
 /**
  * @author RRReoru
@@ -15,26 +17,8 @@ public class DemoTest {
     @Test
     public void test01() {
         Connection connection = JDBCUtil.getConnection();
-        try {
-            PreparedStatement p = connection.prepareStatement("select * from tb_user");
-            p.execute();
-            int index = 1;
-            ResultSet resultSet = p.getResultSet();
-            ResultSetMetaData metaData = p.getMetaData();
+        List list = JDBCUtil.executeSql(User.class, "select * from tb_user");
+        System.out.println(list);
 
-            while (index <= metaData.getColumnCount()) {
-                String columnName = metaData.getColumnName(index++);
-                System.out.println("字段名：" + columnName);
-            }
-
-            index = 1;
-            while (resultSet.next()) {
-                System.out.println("值："+resultSet.getObject(index++) + " , " + resultSet.getObject(index++));
-            }
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }
