@@ -9,6 +9,8 @@ package com.qf.constant;
  * JDBC连接属性资源文件的key名类
  */
 public class PropertyConst {
+
+
     // 私有化构造
     private PropertyConst() {
     }
@@ -32,4 +34,9 @@ public class PropertyConst {
     public static final String LOGIN_REQ = "/login";
 
     public static final String ROOT_REQ = "/";
+
+    public static final String[] URL_PATTERN = {
+            "/json", ".js", ".css", ".ico", ".jpg", ".png",
+            LOGIN_REQ, ROOT_REQ, GOODS_LIST_REQ,"goodsCar"
+    };
 }

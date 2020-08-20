@@ -1,5 +1,7 @@
 package com.qf.service;
 
+import com.qf.bean.Goods;
+
 import java.util.List;
 
 /**
@@ -12,5 +14,5 @@ public interface GoodsService {
      * 查询所有的商品
      * @return
      */
-    List queryAll();
+    List<Goods> queryAll();
 }

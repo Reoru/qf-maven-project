@@ -1,5 +1,7 @@
 package com.qf.dao;
 
+import com.qf.bean.Goods;
+
 import java.util.List;
 
 /**
@@ -12,5 +14,5 @@ public interface GoodsDAO {
      * 列出所有商品
      * @return
      */
-    List selectAll();
+    List<Goods> selectAll();
 }

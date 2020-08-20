@@ -1,5 +1,6 @@
 package com.qf.controller;
 
+import com.qf.bean.Goods;
 import com.qf.constant.PropertyConst;
 import com.qf.service.GoodsService;
 import com.qf.service.impl.GoodsServiceImpl;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -34,9 +37,15 @@ public class GoodsController extends HttpServlet {
 
 
     private void goodsList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List goodsList = goodsService.queryAll();
-        // 将商品集合进行作用域赋值
-        req.setAttribute(PropertyConst.GOODS_LIST, goodsList);
+        List<Goods> goodsList = goodsService.queryAll();
+        // 将商品集合进行作用域初始化赋值
+        if (req.getSession().getAttribute(PropertyConst.GOODS_LIST) == null) {
+            HashMap<String, Goods> map = new HashMap<>();
+            for (Goods goods : goodsList) {
+                map.put(goods.getId().toString(), goods);
+            }
+            req.getSession().setAttribute(PropertyConst.GOODS_LIST, map);
+        }
         req.getRequestDispatcher("WEB-INF/page/goods-index.jsp").forward(req, resp);
     }
 }

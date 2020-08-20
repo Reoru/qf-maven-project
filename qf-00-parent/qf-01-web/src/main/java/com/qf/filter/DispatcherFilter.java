@@ -29,35 +29,25 @@ public class DispatcherFilter implements Filter {
         String uri = req.getRequestURI();
 
 
-        // 静态资源不拦截
-        String[] urls = {"/json", ".js", ".css", ".ico", ".jpg", ".png"};
-        for (String str : urls) {
+        // 设置不拦截的资源
+        for (String str : PropertyConst.URL_PATTERN) {
             if (uri.contains(str)) {
+                System.out.println("非拦截页面，放行...");
                 filterChain.doFilter(req, resp);
                 return;
             }
         }
 
 
-        String autoLogin = req.getParameter("autoLogin");
-        System.out.println("uri:------>" + uri);
-        // 检测是否是登录页面的请求
-        if (uri != null &&
-                (uri.contains(PropertyConst.LOGIN_REQ) || uri.contains(PropertyConst.GOODS_LIST_REQ) || uri.endsWith(PropertyConst.ROOT_REQ))) {
-            System.out.println("uri为登录请求，正在转入登录页面....");
+        //取出session中保存的用户信息，以便自动登录
+        User userInfo = (User) req.getSession().getAttribute(PropertyConst.USER_INFO);
+        if (userInfo != null) {
+            System.out.println("已登录，放行...");
             filterChain.doFilter(req, resp);
             return;
-        } else {
-            //取出session中保存的用户信息，以便自动登录
-            User userInfo = (User) req.getSession().getAttribute(PropertyConst.USER_INFO);
-            if (userInfo != null) {
-                System.out.println("已登录，放行...");
-                filterChain.doFilter(req, resp);
-                return;
-            }
         }
 
-        //既不是登录页面，也没有保存session则跳转到登录页面
+        //既不是非拦截页面，也没有保存session则跳转到登录页面
         System.out.println("暂未登录，转向登录页面...");
         req.getRequestDispatcher("WEB-INF/page/login.jsp").forward(req, resp);
     }

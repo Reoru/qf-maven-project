@@ -15,11 +15,11 @@ import java.util.List;
  */
 public class GoodsDAOImpl implements GoodsDAO {
     @Override
-    public List selectAll() {
+    public List<Goods> selectAll() {
         HashMap<Integer, String> map = new HashMap<>();
         // 将查询到的商品结果集返回
         List<Goods> goodsList = JDBCUtil.executeSql(Goods.class, "select * from tb_goods");
-        List<Category> cateList =  JDBCUtil.executeSql(Category.class, "select * from tb_category");
+        List<Category> cateList = JDBCUtil.executeSql(Category.class, "select * from tb_category");
         for (Category category : cateList) {
             map.put(category.getId(), category.getName());
         }

@@ -1,5 +1,6 @@
 package com.qf.service.impl;
 
+import com.qf.bean.Goods;
 import com.qf.dao.GoodsDAO;
 import com.qf.dao.impl.GoodsDAOImpl;
 import com.qf.service.GoodsService;
@@ -14,7 +15,7 @@ import java.util.List;
 public class GoodsServiceImpl implements GoodsService {
     private GoodsDAO goodsDAO = new GoodsDAOImpl();
     @Override
-    public List queryAll() {
+    public List<Goods> queryAll() {
         return goodsDAO.selectAll();
     }
 }
