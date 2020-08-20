@@ -27,12 +27,23 @@ public class DispatcherFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         String uri = req.getRequestURI();
+
+
+        // 静态资源不拦截
+        String[] urls = {"/json", ".js", ".css", ".ico", ".jpg", ".png"};
+        for (String str : urls) {
+            if (uri.contains(str)) {
+                filterChain.doFilter(req, resp);
+                return;
+            }
+        }
+
+
         String autoLogin = req.getParameter("autoLogin");
         System.out.println("uri:------>" + uri);
         // 检测是否是登录页面的请求
         if (uri != null &&
-                (uri.contains(PropertyConst.LOGIN_REQ) || uri.contains(PropertyConst.GOODS_LIST_REQ) || uri.endsWith(PropertyConst.ROOT_REQ)))
-        {
+                (uri.contains(PropertyConst.LOGIN_REQ) || uri.contains(PropertyConst.GOODS_LIST_REQ) || uri.endsWith(PropertyConst.ROOT_REQ))) {
             System.out.println("uri为登录请求，正在转入登录页面....");
             filterChain.doFilter(req, resp);
             return;

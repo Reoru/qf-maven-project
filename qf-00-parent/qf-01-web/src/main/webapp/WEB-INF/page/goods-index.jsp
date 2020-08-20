@@ -1,3 +1,7 @@
+<%@ page import="com.qf.constant.PropertyConst" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<jsp:useBean id="goodsList" scope="request" type=""/>
 <%--
   Created by IntelliJ IDEA.
   User: Administrator
@@ -7,10 +11,18 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%
+    session.setAttribute(PropertyConst.CAR_INFO,new ArrayList());
+%>
+
 <html>
 <head>
     <title>Title</title>
 </head>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/layui/css/layui.css" media="all">
+<script src="webjars/jquery/3.4.1/dist/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/layui/layui.js"></script>
 <body>
 
 
@@ -18,8 +30,8 @@
 <c:forEach items="${goodsList}" var="goods" varStatus="status">
     <div>
             ${status.count} ---- > ${goods.name},${goods.description},${goods.price},${goods.category}
-        <a href="${pageContext.request.contextPath}/goodsCar?m=add" id="addGoods">添加</a>
 
+        <button onclick="addGoods('${goods.id}')" type="button" class="layui-btn layui-btn-primary">添加</button>
     </div>
     <br/>
 </c:forEach>
@@ -28,7 +40,10 @@
 </body>
 
 <script>
-
+    // 每次点击添加，则将商品添加至数组
+    function addGoodsid(){
+        $.forEach();
+    }
 
 </script>
 </html>

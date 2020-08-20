@@ -13,6 +13,8 @@ public class PropertyConst {
     private PropertyConst() {
     }
 
+    public static final String CAR_INFO = "goods_car";
+
     public static final String USER_NAME = "username";
 
     public static final String PASS_WORD = "password";

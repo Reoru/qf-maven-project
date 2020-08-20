@@ -103,6 +103,13 @@
 
 
         <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>jquery</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>qf.project.service</groupId>
             <artifactId>qf-02-service</artifactId>
             <version>1.0-SNAPSHOT</version>
