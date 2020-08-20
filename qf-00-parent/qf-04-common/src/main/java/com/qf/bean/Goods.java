@@ -12,6 +12,7 @@ public class Goods {
     private String description;
     private BigDecimal price;
     private Integer cid;
+    private String category;
 
     @Override
     public String toString() {
@@ -20,7 +21,16 @@ public class Goods {
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", cid=" + cid +
+                ", category='" + category + '\'' +
                 '}';
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getName() {

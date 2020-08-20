@@ -88,7 +88,7 @@ public class JDBCUtil<T> {
         }
     }
 
-    public static <T> List executeSql(Class<T> clazz, String sql, Object... params) {
+    public static <T> List<T> executeSql(Class<T> clazz, String sql, Object... params) {
         try {
             // 每次请求创建一次预编译对象
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -100,6 +100,7 @@ public class JDBCUtil<T> {
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getResultSet();
             if (resultSet != null) {
+                //数据收集，反射封装
                 collectList(clazz, resultSet);
             }
 

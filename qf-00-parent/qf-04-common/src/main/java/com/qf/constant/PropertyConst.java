@@ -23,5 +23,11 @@ public class PropertyConst {
 
     public static final String USER_INFO = "userInfo";
 
-    public static final String JSESSIONID = "JSESSIONID";
+    public static final String GOODS_LIST = "goodsList";
+
+    public static final String GOODS_LIST_REQ = "showGoods";
+
+    public static final String LOGIN_REQ = "/login";
+
+    public static final String ROOT_REQ = "/";
 }

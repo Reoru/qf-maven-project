@@ -66,6 +66,12 @@
 
 
         <dependency>
+            <groupId>javax.servlet.jsp.jstl</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
+
+
+        <dependency>
             <groupId>qf.project.service</groupId>
             <artifactId>qf-02-service</artifactId>
             <version>1.0-SNAPSHOT</version>

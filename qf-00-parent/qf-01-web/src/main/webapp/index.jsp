@@ -13,6 +13,8 @@
 <body>
 
 <h1>index page</h1>
-<a href="${pageContext.request.contextPath}/login">to login</a>
+<script>
+    window.location.href = "${pageContext.request.contextPath}/showGoods";
+</script>
 </body>
 </html>

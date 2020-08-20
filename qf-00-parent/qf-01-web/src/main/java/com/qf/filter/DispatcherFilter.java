@@ -30,7 +30,9 @@ public class DispatcherFilter implements Filter {
         String autoLogin = req.getParameter("autoLogin");
         System.out.println("uri:------>" + uri);
         // 检测是否是登录页面的请求
-        if (uri != null && uri.contains("/login")) {
+        if (uri != null &&
+                (uri.contains(PropertyConst.LOGIN_REQ) || uri.contains(PropertyConst.GOODS_LIST_REQ) || uri.endsWith(PropertyConst.ROOT_REQ)))
+        {
             System.out.println("uri为登录请求，正在转入登录页面....");
             filterChain.doFilter(req, resp);
             return;
