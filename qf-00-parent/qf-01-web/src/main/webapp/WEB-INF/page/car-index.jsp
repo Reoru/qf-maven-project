@@ -12,9 +12,19 @@
     <title>Title</title>
 </head>
 <body>
+<h1> ${sessionScope.userInfo.username}，欢迎!</h1>
 <h1>购物车列表：</h1>
-<c:forEach items="${sessionScope.tempCar}" var="goods" varStatus="status">
-    ${status.count} ---- > ${goods.name},${goods.description},${goods.price},${goods.category}  <br/>
-</c:forEach>
+<c:if test="${not empty sessionScope.userInfo}">
+    <c:forEach items="${sessionScope.userInfo.goodsList}" var="goods" varStatus="status">
+        ${status.count} ---- > ${goods.name},${goods.description},${goods.price},${goods.category}  <br/>
+    </c:forEach>
+</c:if>
+
+<c:if test="${empty sessionScope.userInfo}">
+    <c:forEach items="${sessionScope.tempCar}" var="goods" varStatus="status">
+        ${status.count} ---- > ${goods.name},${goods.description},${goods.price},${goods.category}  <br/>
+    </c:forEach>
+</c:if>
+
 </body>
 </html>

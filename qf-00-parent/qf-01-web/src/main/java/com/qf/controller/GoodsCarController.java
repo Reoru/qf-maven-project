@@ -20,7 +20,7 @@ import java.util.*;
  */
 @WebServlet("/goodsCar")
 public class GoodsCarController extends HttpServlet {
-    private static final String MY_CAR = "my";
+    private static final String ADD_GOODS = "add";
     private static final String TEMP_CAR = "tempCar";
     private static final String SHOW_CAR = "show";
     private static final String GOODS = "goodsId[]";
@@ -35,40 +35,58 @@ public class GoodsCarController extends HttpServlet {
         String method = req.getParameter("m");
         // 获取用户信息
         User user = (User) req.getSession().getAttribute(PropertyConst.USER_INFO);
-        if (MY_CAR.equals(method)) {
+        if (ADD_GOODS.equals(method)) {
             //获取作用域中商品集合，用于请求参数ids来获取商品
             HashMap<String, Goods> map = (HashMap<String, Goods>) req.getSession().getAttribute(PropertyConst.GOODS_LIST);
-            ArrayList<Goods> goods = new ArrayList<>();
+            //如果id为null，那么就跳过添加，否则添加至临时购物车
+            String id = req.getParameter("id");
+            Goods goods = map.get(id);
 
-            //整理请求商品数据
-            String[] goodsArr = req.getParameterValues(GOODS);
-            for (String id : goodsArr) {
-                if (map.containsKey(id)) {
-                    // 将新添加的商品临时存储
-                    goods.add(map.get(id));
-                }
-            }
-
+            //非登录状态，数据从临时购物车获取添加
             if (user == null) {
+
                 //非登录状态，将session中的cookie购物车取出
                 List<Goods> tempGoods = (List<Goods>) req.getSession().getAttribute(TEMP_CAR);
                 if (tempGoods == null) {
+                    ArrayList<Goods> list = new ArrayList<>();
                     // 初始化赋值
-                    /*Cookie[] cookies = req.getCookies();
+                    Cookie[] cookies = req.getCookies();
                     for (Cookie cookie : cookies) {
                         cookie.setMaxAge(300);
                         resp.addCookie(cookie);
-                    }*/
+                    }
 
+                    if (goods != null) {
+                        list.add(goods);
+                    }
                     Cookie cookie = new Cookie(TEMP_CAR, "online");
-                    req.getSession().setAttribute(TEMP_CAR, goods);
+                    req.getSession().setAttribute(TEMP_CAR, list);
                     cookie.setMaxAge(300);
                     resp.addCookie(cookie);
                 } else {
-                    if (goods.size() != 0) {
-                        tempGoods.addAll(goods);
+                    if (goods != null) {
+                        tempGoods.add(goods);
+                    }
+                    return;
+                }
+            } else {
+                Cookie[] cookies = req.getCookies();
+                for (Cookie cookie : cookies) {
+                    if (TEMP_CAR.equals(cookie.getName())) {
+                        cookie.setMaxAge(0);
+                        resp.addCookie(cookie);
+                        break;
                     }
                 }
+                // 销毁session，达到清空临时购物车目的
+                req.getSession().invalidate();
+
+                // 登录状态，根据用户的购物车，添加商品
+                List<Goods> goodslist = user.getGoodslist();
+                if (goods != null) {
+                    goodslist.add(goods);
+                }
+
             }
 
         } else if (SHOW_CAR.equals(method)) {

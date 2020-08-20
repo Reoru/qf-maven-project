@@ -1,5 +1,6 @@
 package com.qf.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,9 +14,7 @@ public class User {
     private String password;
     private Integer logout;
     // 购物车
-    private List<Goods> goodslist;
-
-
+    private List<Goods> goodslist = new ArrayList<>();
 
 
     public Integer getId() {

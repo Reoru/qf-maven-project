@@ -37,6 +37,6 @@ public class PropertyConst {
 
     public static final String[] URL_PATTERN = {
             "/json", ".js", ".css", ".ico", ".jpg", ".png",
-            LOGIN_REQ, ROOT_REQ, GOODS_LIST_REQ,"goodsCar"
+            LOGIN_REQ, ROOT_REQ, GOODS_LIST_REQ, "goodsCar"
     };
 }

@@ -18,36 +18,38 @@
 <script src="webjars/jquery/3.4.1/dist/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/layui/layui.js"></script>
 <body>
-
+<h1> ${sessionScope.userInfo.username}，欢迎!</h1>
 
 <h1>商品列表：</h1>
 <c:forEach items="${sessionScope.goodsList}" var="goods" varStatus="status">
     <div>
-            ${status.count} ---- > ${goods.value.name},${goods.value.description},${goods.value.price},${goods.value.category}
+            ${status.count} ----
+        > ${goods.value.name},${goods.value.description},${goods.value.price},${goods.value.category}
 
         <button onclick="addGoods('${goods.value.id}')" type="button" class="layui-btn layui-btn-primary">添加</button>
     </div>
     <br/>
 </c:forEach>
 
-<button id="car" type="button" class="layui-btn layui-btn-primary">我的购物车</button>
+<button id="car" type="button" class="layui-btn layui-btn-primary" hidden>我的购物车</button>
+<button onclick="window.location.href='${pageContext.request.contextPath}/go'" type="button"
+        class="layui-btn layui-btn-primary" hidden>去登陆
+</button>
 </body>
 
 <script>
+
+
     // 每次点击添加，则将商品添加至数组
     let goodsArr = [];
 
     function addGoods(id) {
-        goodsArr.push(id);
+        // 向后台发送ajax请求
+        $.get("${pageContext.request.contextPath}/goodsCar?m=add&id=" + id);
     }
 
     $("#car").click(function () {
-        $.post("${pageContext.request.contextPath}/goodsCar", {
-            "goodsId": goodsArr,
-            "m": "my"
-        }, function () {
-            window.location.href = "${pageContext.request.contextPath}/goodsCar?m=show";
-        });
+        window.location.href = "${pageContext.request.contextPath}/goodsCar?m=show";
     });
 
 </script>

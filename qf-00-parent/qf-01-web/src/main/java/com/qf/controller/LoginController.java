@@ -44,16 +44,16 @@ public class LoginController extends HttpServlet {
             if ("on".equals(login)) {
                 Cookie[] cookies = req.getCookies();
                 for (Cookie cookie : cookies) {
-                    cookie.setMaxAge(300);
+                    cookie.setMaxAge(60);
                     resp.addCookie(cookie);
                 }
 
                 Cookie cookie = new Cookie(PropertyConst.USER_INFO, user.getUsername());
-                cookie.setMaxAge(300);
+                cookie.setMaxAge(60);
                 resp.addCookie(cookie);
             }
             req.getSession().setAttribute(PropertyConst.USER_INFO, user);
-            req.getRequestDispatcher("WEB-INF/page/goods-list.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/page/goods-index.jsp").forward(req, resp);
         }
     }
 }
