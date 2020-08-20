@@ -14,7 +14,7 @@ public class User {
     private String password;
     private Integer logout;
     // 购物车
-    private List<Goods> goodslist = new ArrayList<>();
+    private List<Goods> goodsList = new ArrayList<>();
 
 
     public Integer getId() {
@@ -49,12 +49,12 @@ public class User {
         this.logout = logout;
     }
 
-    public List<Goods> getGoodslist() {
-        return goodslist;
+    public List<Goods> getGoodsList() {
+        return goodsList;
     }
 
-    public void setGoodslist(List<Goods> goodslist) {
-        this.goodslist = goodslist;
+    public void setGoodsList(List<Goods> goodsList) {
+        this.goodsList = goodsList;
     }
 
     @Override
@@ -64,7 +64,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", logout=" + logout +
-                ", goodslist=" + goodslist +
+                ", goodslist=" + goodsList +
                 '}';
     }
 }

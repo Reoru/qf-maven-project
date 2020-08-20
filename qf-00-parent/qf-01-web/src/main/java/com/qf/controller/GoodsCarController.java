@@ -70,23 +70,14 @@ public class GoodsCarController extends HttpServlet {
                     return;
                 }
             } else {
-                Cookie[] cookies = req.getCookies();
-                for (Cookie cookie : cookies) {
-                    if (TEMP_CAR.equals(cookie.getName())) {
-                        cookie.setMaxAge(0);
-                        resp.addCookie(cookie);
-                        break;
-                    }
-                }
-                // 销毁session，达到清空临时购物车目的
-                req.getSession().invalidate();
+                System.out.println("登录状态添加...");
 
                 // 登录状态，根据用户的购物车，添加商品
-                List<Goods> goodslist = user.getGoodslist();
                 if (goods != null) {
-                    goodslist.add(goods);
+                    System.out.println("登录添加...");
+                    user.getGoodsList().add(goods);
                 }
-
+                req.getSession().setAttribute(PropertyConst.USER_INFO, user);
             }
 
         } else if (SHOW_CAR.equals(method)) {
