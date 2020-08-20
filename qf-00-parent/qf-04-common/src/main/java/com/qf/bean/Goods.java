@@ -8,6 +8,7 @@ import java.math.BigDecimal;
  * @date 2020/8/19 0019 下午 16:34
  */
 public class Goods {
+    private Integer id;
     private String name;
     private String description;
     private BigDecimal price;
@@ -17,12 +18,21 @@ public class Goods {
     @Override
     public String toString() {
         return "Goods{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", cid=" + cid +
                 ", category='" + category + '\'' +
                 '}';
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getCategory() {

@@ -14,17 +14,15 @@ import java.util.List;
 /**
  * Unit test for simple App.
  */
-public class AppTest 
-{
+public class AppTest {
     private GoodsDAO goodsDAO = new GoodsDAOImpl();
 
     /**
      * Rigorous Test :-)
      */
     @Test
-    public void shouldAnswerWithTrue()
-    {
-        List<Goods> goods = JDBCUtil.executeSql(Goods.class, "select * from tb_goods");
-        System.out.println(goods);
+    public void shouldAnswerWithTrue() {
+        List list = goodsDAO.selectAll();
+        System.out.println(list);
     }
 }

@@ -76,12 +76,12 @@
             </dependency>
 
 
-            <!-- jstl -->
+           <!--  jstl
             <dependency>
                 <groupId>javax.servlet.jsp.jstl</groupId>
                 <artifactId>jstl</artifactId>
                 <version>1.2</version>
-            </dependency>
+            </dependency>-->
 
         </dependencies>
 

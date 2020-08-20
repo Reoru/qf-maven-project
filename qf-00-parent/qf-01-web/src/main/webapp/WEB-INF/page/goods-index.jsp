@@ -15,11 +15,20 @@
 
 
 <h1>商品列表：</h1>
-<c:forEach items="goodsList" var="goods">
+<c:forEach items="${goodsList}" var="goods" varStatus="status">
     <div>
-            ${goods.id} ---- > ${goods.name},${goods.description},${goods.price},${goods.category}
+            ${status.count} ---- > ${goods.name},${goods.description},${goods.price},${goods.category}
+        <a href="${pageContext.request.contextPath}/goodsCar?m=add" id="addGoods">添加</a>
+
     </div>
     <br/>
 </c:forEach>
+
+<a href="${pageContext.request.contextPath}/goodsCar?m=my">前往我的购物车</a>
 </body>
+
+<script>
+
+
+</script>
 </html>
