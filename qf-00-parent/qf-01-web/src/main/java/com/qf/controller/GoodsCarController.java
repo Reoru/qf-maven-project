@@ -23,6 +23,9 @@ public class GoodsCarController extends HttpServlet {
     private static final String ADD_GOODS = "add";
     private static final String TEMP_CAR = "tempCar";
     private static final String SHOW_CAR = "show";
+    private static final String DEL_GOODS = "del";
+
+
     private static final String GOODS = "goodsId[]";
 
     @Override
@@ -35,9 +38,10 @@ public class GoodsCarController extends HttpServlet {
         String method = req.getParameter("m");
         // 获取用户信息
         User user = (User) req.getSession().getAttribute(PropertyConst.USER_INFO);
+        HashMap<String, Goods> map = (HashMap<String, Goods>) req.getSession().getAttribute(PropertyConst.GOODS_LIST);
+
         if (ADD_GOODS.equals(method)) {
             //获取作用域中商品集合，用于请求参数ids来获取商品
-            HashMap<String, Goods> map = (HashMap<String, Goods>) req.getSession().getAttribute(PropertyConst.GOODS_LIST);
             //如果id为null，那么就跳过添加，否则添加至临时购物车
             String id = req.getParameter("id");
             Goods goods = map.get(id);
@@ -83,6 +87,18 @@ public class GoodsCarController extends HttpServlet {
         } else if (SHOW_CAR.equals(method)) {
             // 直接跳转购物车页面
             req.getRequestDispatcher("WEB-INF/page/car-index.jsp").forward(req, resp);
+        } else if (DEL_GOODS.equals(method)) {
+            // 获取id，删除数据
+            String id = req.getParameter("id");
+            Goods goods = map.get(id);
+            if (user != null) {
+                // 登录状态
+                user.getGoodsList().remove(goods);
+            } else {
+                // 非登录状态
+                List<Goods> tempGoods = (List<Goods>) req.getSession().getAttribute(TEMP_CAR);
+                tempGoods.remove(goods);
+            }
         }
     }
 }

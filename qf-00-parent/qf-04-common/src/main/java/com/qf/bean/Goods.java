@@ -1,6 +1,7 @@
 package com.qf.bean;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * @author RRReoru
@@ -73,5 +74,27 @@ public class Goods {
 
     public void setCid(Integer cid) {
         this.cid = cid;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Goods goods = (Goods) o;
+        return Objects.equals(id, goods.id) &&
+                Objects.equals(name, goods.name) &&
+                Objects.equals(description, goods.description) &&
+                Objects.equals(price, goods.price) &&
+                Objects.equals(cid, goods.cid) &&
+                Objects.equals(category, goods.category);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, price, cid, category);
     }
 }

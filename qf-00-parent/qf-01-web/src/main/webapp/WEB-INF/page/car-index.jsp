@@ -11,12 +11,17 @@
 <head>
     <title>Title</title>
 </head>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/layui/css/layui.css" media="all">
+<script src="webjars/jquery/3.4.1/dist/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/layui/layui.js"></script>
 <body>
 <h1> ${sessionScope.userInfo.username}，欢迎!</h1>
 <h1>购物车列表：</h1>
 <c:if test="${not empty sessionScope.userInfo}">
     <c:forEach items="${sessionScope.userInfo.goodsList}" var="goods" varStatus="status">
-        ${status.count} ---- > ${goods.name},${goods.description},${goods.price},${goods.category}  <br/>
+        ${status.count} ---- > ${goods.name},${goods.description},${goods.price},${goods.category}
+        <button onclick="delGoods('${goods.id}')" type="button" class="layui-btn layui-btn-primary">删除</button>
+        <br/>
     </c:forEach>
 </c:if>
 
@@ -27,4 +32,14 @@
 </c:if>
 
 </body>
+
+<script>
+    function delGoods(id) {
+        $.get("${pageContext.request.contextPath}/goodsCar?m=del&id=" + id, function () {
+            // 删除成功刷新当前页面
+            location.reload();
+        });
+    }
+
+</script>
 </html>
