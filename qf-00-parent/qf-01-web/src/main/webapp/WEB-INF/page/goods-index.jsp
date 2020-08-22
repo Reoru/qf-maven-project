@@ -27,6 +27,17 @@
         > ${goods.value.name},${goods.value.description},${goods.value.price},${goods.value.category}
 
         <button onclick="addGoods('${goods.value.id}')" type="button" class="layui-btn layui-btn-primary">添加</button>
+        <c:if test="${not empty sessionScope.userInfo}">
+            <button type="button" onclick="del('${goods.value.id}')"
+                    class="layui-btn layui-btn-danger layui-btn-radius">删除商品
+            </button>
+
+
+            <button type="button"
+                    onclick="location.href='${pageContext.request.contextPath}/goods?m=edit-index&id=' + ${goods.value.id}"
+                    class="layui-btn layui-btn-normal layui-btn-radius">修改商品
+            </button>
+        </c:if>
     </div>
     <br/>
 </c:forEach>
@@ -35,13 +46,38 @@
 <button onclick="window.location.href='${pageContext.request.contextPath}/go'" type="button"
         class="layui-btn layui-btn-primary" hidden>去登陆
 </button>
+<br>
+<br>
+<c:if test="${not empty sessionScope.userInfo}">
+    <c:forEach var="permission" items="${sessionScope.userInfo.permissions}">
+        <c:if test="${permission eq '/showGoods' or permission eq '/*'}">
+            <button type="button" id="add" class="layui-btn layui-btn-radius">新增商品</button>
+            <button type="button" id="edit" class="layui-btn layui-btn-normal layui-btn-radius">修改商品</button>
+        </c:if>
+    </c:forEach>
+</c:if>
+
+
 </body>
 
 <script>
+    $(function () {
+        //新增商品
+        $("#add").click(function () {
+            location.href = "${pageContext.request.contextPath}/goods?m=add-index";
+        });
+    });
 
+    // 删除指定商品
+    function del(id) {
+        $.get("${pageContext.request.contextPath}/goods?m=del&id=" + id, function () {
+            location.href = "${pageContext.request.contextPath}/showGoods";
+        });
+    }
 
-    // 每次点击添加，则将商品添加至数组
-    let goodsArr = [];
+    function edits(id) {
+
+    }
 
     function addGoods(id) {
         // 向后台发送ajax请求
@@ -49,7 +85,7 @@
     }
 
     $("#car").click(function () {
-        window.location.href = "${pageContext.request.contextPath}/goodsCar?m=show";
+        window.location.href = "${pageContext.request.contextPath}/goodsCar?m=show&username=" + ${sessionScope.userInfo.username};
     });
 
 </script>

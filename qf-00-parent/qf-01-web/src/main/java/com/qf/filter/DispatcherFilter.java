@@ -29,10 +29,10 @@ public class DispatcherFilter implements Filter {
         String uri = req.getRequestURI();
 
 
+
         System.out.println("uri=> " + uri);
         // 设置不拦截的资源
         for (String str : PropertyConst.URL_PATTERN) {
-
             if (uri.endsWith(str)) {
                 System.out.println(str);
                 System.out.println("非拦截页面，放行...");

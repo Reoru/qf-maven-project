@@ -3,6 +3,8 @@ package com.qf.controller;
 import com.qf.bean.Goods;
 import com.qf.bean.User;
 import com.qf.constant.PropertyConst;
+import com.qf.service.UserService;
+import com.qf.service.impl.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,9 +26,10 @@ public class GoodsCarController extends HttpServlet {
     private static final String TEMP_CAR = "tempCar";
     private static final String SHOW_CAR = "show";
     private static final String DEL_GOODS = "del";
-
+    private static final String CLEAR = "clear";
 
     private static final String GOODS = "goodsId[]";
+    private UserService userService = new UserServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -75,7 +78,6 @@ public class GoodsCarController extends HttpServlet {
                 }
             } else {
                 System.out.println("登录状态添加...");
-
                 // 登录状态，根据用户的购物车，添加商品
                 if (goods != null) {
                     System.out.println("登录添加...");
@@ -85,6 +87,7 @@ public class GoodsCarController extends HttpServlet {
             }
 
         } else if (SHOW_CAR.equals(method)) {
+            String username = req.getParameter("username");
             // 直接跳转购物车页面
             req.getRequestDispatcher("WEB-INF/page/car-index.jsp").forward(req, resp);
         } else if (DEL_GOODS.equals(method)) {
@@ -99,6 +102,17 @@ public class GoodsCarController extends HttpServlet {
                 List<Goods> tempGoods = (List<Goods>) req.getSession().getAttribute(TEMP_CAR);
                 tempGoods.remove(goods);
             }
+        } else if (CLEAR.equals(method)) {
+            // 清空购物车
+            if (user != null) {
+                // 登录状态
+                user.getGoodsList().clear();
+            } else {
+                // 非登录状态
+                List<Goods> tempGoods = (List<Goods>) req.getSession().getAttribute(TEMP_CAR);
+                tempGoods.clear();
+            }
         }
+
     }
 }

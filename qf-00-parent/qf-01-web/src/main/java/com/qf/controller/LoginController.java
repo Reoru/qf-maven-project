@@ -2,6 +2,7 @@ package com.qf.controller;
 
 import com.qf.bean.User;
 import com.qf.constant.PropertyConst;
+import com.qf.dto.UserDTO;
 import com.qf.service.LoginService;
 import com.qf.service.impl.LoginServiceImpl;
 
@@ -29,16 +30,13 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("this is login----");
         // 获取前台的用户名密码
         System.out.println("LoginServlet.doGet");
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         String login = req.getParameter("autoLogin");
-        System.out.println("auto:--->" + login);
-        User user = loginService.queryUser(username, password);
+        UserDTO user = loginService.queryUser(username, password);
 
-        System.out.println("userInfo--->" + user);
         if (user != null) {
             // 用户存在
             if ("on".equals(login)) {
@@ -53,7 +51,7 @@ public class LoginController extends HttpServlet {
                 resp.addCookie(cookie);
             }
             req.getSession().setAttribute(PropertyConst.USER_INFO, user);
-            req.getRequestDispatcher("WEB-INF/page/goods-index.jsp").forward(req, resp);
+            resp.sendRedirect(req.getContextPath() + "/showGoods");
         }
     }
 }

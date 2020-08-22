@@ -15,4 +15,22 @@ public interface GoodsService {
      * @return
      */
     List<Goods> queryAll();
+
+    /**
+     * 删除指定商品
+     * @param id
+     */
+    void removeGoods(String id);
+
+    /**
+     * 商品的新增
+     * @param goods
+     */
+    void addGoods(Goods goods);
+
+    /**
+     * 修改商品
+     * @param goods
+     */
+    void updateGoods(Goods goods);
 }

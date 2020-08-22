@@ -18,4 +18,19 @@ public class GoodsServiceImpl implements GoodsService {
     public List<Goods> queryAll() {
         return goodsDAO.selectAll();
     }
+
+    @Override
+    public void removeGoods(String id) {
+        goodsDAO.deleteGoodsById(id);
+    }
+
+    @Override
+    public void addGoods(Goods goods) {
+        goodsDAO.insertGoods(goods);
+    }
+
+    @Override
+    public void updateGoods(Goods goods) {
+        goodsDAO.updateGoods(goods);
+    }
 }

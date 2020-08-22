@@ -1,6 +1,7 @@
 package com.qf.service;
 
-import com.qf.bean.User;
+
+import com.qf.dto.UserDTO;
 
 /**
  * @author RRReoru
@@ -14,5 +15,5 @@ public interface LoginService {
      * @param username
      * @param password
      */
-    User queryUser(String username, String password);
+    UserDTO queryUser(String username, String password);
 }

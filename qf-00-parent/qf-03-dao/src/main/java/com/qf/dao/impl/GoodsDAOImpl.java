@@ -35,4 +35,19 @@ public class GoodsDAOImpl implements GoodsDAO {
 
         return goodsList;
     }
+
+    @Override
+    public void deleteGoodsById(String id) {
+        JDBCUtil.executeSql(null,"delete from tb_goods where id = ?",id);
+    }
+
+    @Override
+    public void insertGoods(Goods goods) {
+        JDBCUtil.executeSql(null,"insert into tb_goods (name,description,price,cid) values (?,?,?,?)",goods.getName(),goods.getDescription(),goods.getPrice(),goods.getCid());
+}
+
+    @Override
+    public void updateGoods(Goods goods) {
+        JDBCUtil.executeSql(null,"update tb_goods set name = ? , description = ? , price = ? , cid = ? where id = ?",goods.getName(),goods.getDescription(),goods.getPrice(),goods.getCid(),goods.getId());
+    }
 }

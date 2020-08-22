@@ -15,4 +15,22 @@ public interface GoodsDAO {
      * @return
      */
     List<Goods> selectAll();
+
+    /**
+     * 删除指定商品
+     * @param id
+     */
+    void deleteGoodsById(String id);
+
+    /**
+     * 新增商品
+     * @param goods
+     */
+    void insertGoods(Goods goods);
+
+    /**
+     * 修改商品
+     * @param goods
+     */
+    void updateGoods(Goods goods);
 }

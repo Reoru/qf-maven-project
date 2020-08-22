@@ -1,8 +1,9 @@
 package com.qf.service.impl;
 
-import com.qf.bean.User;
+
 import com.qf.dao.LoginDAO;
 import com.qf.dao.impl.LoginDAOImpl;
+import com.qf.dto.UserDTO;
 import com.qf.service.LoginService;
 
 /**
@@ -14,8 +15,8 @@ public class LoginServiceImpl implements LoginService {
     private LoginDAO loginDAO = new LoginDAOImpl();
 
     @Override
-    public User queryUser(String username, String password) {
+    public UserDTO queryUser(String username, String password) {
         // 根据用户名密码查询用户并返回
-        return loginDAO.selectUser(username,password);
+        return loginDAO.selectUser(username, password);
     }
 }

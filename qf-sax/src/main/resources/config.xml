@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configs>
+    <mappers>
+        <package path="qf.test.mapper" />
+    </mappers>
+
+    <mapperXmls>
+        <resource path="src/main/resources/mapper/UserMapper.xml" />
+    </mapperXmls>
+</configs>

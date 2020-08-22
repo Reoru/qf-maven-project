@@ -1,6 +1,7 @@
 package com.qf.util;
 
 import com.qf.constant.PropertyConst;
+import com.sun.deploy.panel.ITreeNode;
 
 import java.io.File;
 import java.io.IOException;
@@ -88,6 +89,7 @@ public class JDBCUtil<T> {
         }
     }
 
+    // 执行ssql
     public static <T> List<T> executeSql(Class<T> clazz, String sql, Object... params) {
         try {
             // 每次请求创建一次预编译对象
@@ -102,6 +104,7 @@ public class JDBCUtil<T> {
             if (resultSet != null) {
                 //数据收集，反射封装
                 collectList(clazz, resultSet);
+                resultSet.close();
             }
 
             // 用完关闭
@@ -114,9 +117,12 @@ public class JDBCUtil<T> {
     }
 
 
+    // 反射封装
     private static <T> void collectList(Class<T> clazz, ResultSet res) {
         resultList = new ArrayList();
         columnMap = new HashMap<>();
+        // 父类字段
+        List<Field> parentList = new ArrayList<>();
         try {
             // 准备获取字段名，根据字段名来映射实体类属性，完成反射封装
             ResultSetMetaData metaData = res.getMetaData();
@@ -136,11 +142,10 @@ public class JDBCUtil<T> {
                 for (Field field : declaredFields) {
                     if (columnMap.containsKey(field.getName())) {
                         // 如果有对应映射字段，那么就进行属性赋值s
-                        Method setMethod = clazz.getDeclaredMethod("set" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1), res.getObject(columnMap.get(field.getName())).getClass());
+                        Method setMethod = getMethodToSet(clazz, res, field);
                         setMethod.invoke(object, res.getObject(columnMap.get(field.getName())));
                     }
                 }
-
                 resultList.add(object);
             }
 
@@ -157,8 +162,28 @@ public class JDBCUtil<T> {
         }
     }
 
+    // 获取set对象，用于反射封装成bean
+    private static <T> Method getMethodToSet(Class<T> clazz, ResultSet res, Field field) throws NoSuchMethodException, SQLException {
+        return clazz.getDeclaredMethod("set" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1), res.getObject(columnMap.get(field.getName())).getClass());
+    }
 
+
+    // 获取连接对象
     public static Connection getConnection() {
         return connection;
+    }
+
+
+    // 返回拼接in 语句条件预编译sql
+    public static String createInSQL(Object... params) {
+        StringBuffer buffer = new StringBuffer("(");
+        for (int i = 0; i < params.length; i++) {
+            if (i < params.length - 1) {
+                buffer.append("?,");
+            } else {
+                buffer.append("?");
+            }
+        }
+        return buffer.append(")").toString();
     }
 }

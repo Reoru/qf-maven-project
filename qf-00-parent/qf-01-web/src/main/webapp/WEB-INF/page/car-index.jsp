@@ -23,12 +23,17 @@
         <button onclick="delGoods('${goods.id}')" type="button" class="layui-btn layui-btn-primary">删除</button>
         <br/>
     </c:forEach>
+
+    <button onclick="clears()" type="button" class="layui-btn layui-btn-primary">清空</button>
 </c:if>
 
 <c:if test="${empty sessionScope.userInfo}">
     <c:forEach items="${sessionScope.tempCar}" var="goods" varStatus="status">
-        ${status.count} ---- > ${goods.name},${goods.description},${goods.price},${goods.category}  <br/>
+        ${status.count} ---- > ${goods.name},${goods.description},${goods.price},${goods.category}
+        <button onclick="delGoods('${goods.id}')" type="button" class="layui-btn layui-btn-primary">删除</button>
+        <br/>
     </c:forEach>
+    <button onclick="clears()" type="button" class="layui-btn layui-btn-primary">清空</button>
 </c:if>
 
 </body>
@@ -37,6 +42,12 @@
     function delGoods(id) {
         $.get("${pageContext.request.contextPath}/goodsCar?m=del&id=" + id, function () {
             // 删除成功刷新当前页面
+            location.reload();
+        });
+    }
+
+    function clears() {
+        $.get("${pageContext.request.contextPath}/goodsCar?m=clear", function () {
             location.reload();
         });
     }

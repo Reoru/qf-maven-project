@@ -23,17 +23,22 @@ public class PropertyConst {
 
     public static final String URL = "url";
 
+    public static final String GOODS_INFO = "goodsInfo";
+
     public static final String SQL = "selectSql";
 
     public static final String USER_INFO = "userInfo";
 
     public static final String GOODS_LIST = "goodsList";
 
+    public static final String CATEGORY_LIST = "categoryList";
+
     public static final String GOODS_LIST_REQ = "showGoods";
 
     public static final String LOGIN_REQ = "/login";
 
     public static final String ROOT_REQ = "/";
+
 
     public static final String[] URL_PATTERN = {
             "/json", ".js", ".css", ".ico", ".jpg", ".png",
