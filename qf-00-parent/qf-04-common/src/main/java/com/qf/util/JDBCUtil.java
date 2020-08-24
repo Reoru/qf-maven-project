@@ -1,9 +1,7 @@
 package com.qf.util;
 
 import com.qf.constant.PropertyConst;
-import com.sun.deploy.panel.ITreeNode;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -11,14 +9,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.*;
 import java.util.*;
-import java.util.concurrent.Callable;
 
 /**
  * @author RRReoru
  * @version 1.0
  * @date 2020/8/19 0019 下午 16:46
  */
-public class JDBCUtil<T> {
+public class JDBCUtil {
     private static String username;
     private static String password;
     private static String url;
@@ -45,11 +42,7 @@ public class JDBCUtil<T> {
                 Class.forName("com.mysql.jdbc.Driver");
                 connection = DriverManager.getConnection(url, username, password);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (IOException | ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
@@ -91,9 +84,11 @@ public class JDBCUtil<T> {
 
     // 执行ssql
     public static <T> List<T> executeSql(Class<T> clazz, String sql, Object... params) {
+        PreparedStatement preparedStatement = null;
         try {
             // 每次请求创建一次预编译对象
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql);
+
             int index = 1;
             for (Object param : params) {
                 preparedStatement.setObject(index++, param);
@@ -106,11 +101,17 @@ public class JDBCUtil<T> {
                 collectList(clazz, resultSet);
                 resultSet.close();
             }
-
-            // 用完关闭
-            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            // 用完关闭
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
 
         return resultList;
@@ -121,8 +122,6 @@ public class JDBCUtil<T> {
     private static <T> void collectList(Class<T> clazz, ResultSet res) {
         resultList = new ArrayList();
         columnMap = new HashMap<>();
-        // 父类字段
-        List<Field> parentList = new ArrayList<>();
         try {
             // 准备获取字段名，根据字段名来映射实体类属性，完成反射封装
             ResultSetMetaData metaData = res.getMetaData();
@@ -149,15 +148,7 @@ public class JDBCUtil<T> {
                 resultList.add(object);
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
+        } catch (SQLException | IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
     }
@@ -176,7 +167,7 @@ public class JDBCUtil<T> {
 
     // 返回拼接in 语句条件预编译sql
     public static String createInSQL(Object... params) {
-        StringBuffer buffer = new StringBuffer("(");
+        StringBuilder buffer = new StringBuilder("(");
         for (int i = 0; i < params.length; i++) {
             if (i < params.length - 1) {
                 buffer.append("?,");

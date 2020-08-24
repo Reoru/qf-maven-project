@@ -3,13 +3,10 @@ package com.qf.filter;
 import com.qf.bean.User;
 import com.qf.constant.PropertyConst;
 
-import javax.annotation.processing.Filer;
 import javax.servlet.*;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * @author RRReoru
@@ -29,10 +26,9 @@ public class DispatcherFilter implements Filter {
         String uri = req.getRequestURI();
 
 
-
         System.out.println("uri=> " + uri);
         // 设置不拦截的资源
-        for (String str : PropertyConst.URL_PATTERN) {
+        for (String str : PropertyConst.getUrlArr()) {
             if (uri.endsWith(str)) {
                 System.out.println(str);
                 System.out.println("非拦截页面，放行...");

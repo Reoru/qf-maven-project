@@ -9,7 +9,6 @@ import com.qf.util.BeanUtils;
 import com.qf.util.JDBCUtil;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author RRReoru
@@ -26,16 +25,17 @@ public class LoginDAOImpl implements LoginDAO {
         UserDTO userDTO = BeanUtils.copy(user, UserDTO.class);
 
         // 取出用户所拥有的角色信息
-        List<Role> roles = JDBCUtil.executeSql(Role.class, "select * from tb_role where id = ?", userDTO.getId());
+        List<Role> roles = JDBCUtil.executeSql(Role.class, "SELECT * FROM tb_role where id in (SELECT rid from tb_user_role_rel where uid = ?)", userDTO.getId());
         //整理角色id，用于查询对应角色所拥有的权限
         Integer[] ids = new Integer[roles.size()];
         for (int i = 0; i < roles.size(); i++) {
             ids[i] = roles.get(i).getId();
         }
         List<Permission> permissions = JDBCUtil.executeSql(Permission.class, "select * from tb_permission where id in ( select pid from tb_role_permission_ral where rid in " + JDBCUtil.createInSQL(ids) + ")", ids);
+        //为用户映射所拥有的权限
         permissions.stream().forEach(userDTO::addPermission);
+        //映射用户所拥有的所有角色
         userDTO.setRoles(roles);
-        //整理权限与角色对应关系
         return userDTO;
     }
 }

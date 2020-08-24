@@ -1,16 +1,9 @@
 package com.qf.test;
 
-import com.qf.bean.*;
-import com.qf.dto.GoodsDTO;
-import com.qf.dto.UserDTO;
-import com.qf.util.BeanUtils;
 import com.qf.util.JDBCUtil;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.junit.Test;
 
 import java.sql.*;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * @author RRReoru

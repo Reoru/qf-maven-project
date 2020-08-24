@@ -18,10 +18,24 @@
         <filter-class>com.qf.filter.DispatcherFilter</filter-class>
     </filter>
 
+    <!--登录校验过滤器-->
     <filter-mapping>
         <filter-name>baseFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>permissionFilter</filter-name>
+        <filter-class>com.qf.filter.PermissionFilter</filter-class>
+    </filter>
+
+    <!--权限校验过滤器-->
+    <filter-mapping>
+        <filter-name>permissionFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
 
     <servlet>
         <servlet-name>logins</servlet-name>

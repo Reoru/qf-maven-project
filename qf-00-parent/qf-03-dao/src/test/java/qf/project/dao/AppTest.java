@@ -1,18 +1,12 @@
 package qf.project.dao;
 
-import static org.junit.Assert.assertTrue;
 
-import com.qf.bean.Category;
-import com.qf.bean.Goods;
-import com.qf.bean.User;
 import com.qf.dao.GoodsDAO;
 import com.qf.dao.LoginDAO;
 import com.qf.dao.impl.GoodsDAOImpl;
 import com.qf.dao.impl.LoginDAOImpl;
-import com.qf.util.JDBCUtil;
+import com.qf.dto.UserDTO;
 import org.junit.Test;
-
-import java.util.List;
 
 /**
  * Unit test for simple App.
@@ -25,6 +19,7 @@ public class AppTest {
      */
     @Test
     public void shouldAnswerWithTrue() {
-       loginDAO.selectUser("zhangsan", "2");
+        UserDTO zhangsan = loginDAO.selectUser("admin", "1");
+        System.out.println(zhangsan.getUsername() + " " + zhangsan);
     }
 }

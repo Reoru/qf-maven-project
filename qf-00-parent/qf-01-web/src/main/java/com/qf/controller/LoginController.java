@@ -1,13 +1,11 @@
 package com.qf.controller;
 
-import com.qf.bean.User;
 import com.qf.constant.PropertyConst;
 import com.qf.dto.UserDTO;
 import com.qf.service.LoginService;
 import com.qf.service.impl.LoginServiceImpl;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

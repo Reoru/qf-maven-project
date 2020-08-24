@@ -10,13 +10,6 @@ package com.qf.constant;
  */
 public class PropertyConst {
 
-
-    // 私有化构造
-    private PropertyConst() {
-    }
-
-    public static final String CAR_INFO = "goods_car";
-
     public static final String USER_NAME = "username";
 
     public static final String PASS_WORD = "password";
@@ -25,23 +18,22 @@ public class PropertyConst {
 
     public static final String GOODS_INFO = "goodsInfo";
 
-    public static final String SQL = "selectSql";
-
     public static final String USER_INFO = "userInfo";
 
     public static final String GOODS_LIST = "goodsList";
 
     public static final String CATEGORY_LIST = "categoryList";
 
-    public static final String GOODS_LIST_REQ = "showGoods";
+    private static String[] urlArr;
 
-    public static final String LOGIN_REQ = "/login";
+    static {
+        urlArr = new String[]{
+                "/json", ".js", ".css", ".ico", ".jpg", ".png",
+                "showGoods", "/", "/login", "goodsCar"
+        };
+    }
 
-    public static final String ROOT_REQ = "/";
-
-
-    public static final String[] URL_PATTERN = {
-            "/json", ".js", ".css", ".ico", ".jpg", ".png",
-            LOGIN_REQ, ROOT_REQ, GOODS_LIST_REQ, "goodsCar"
-    };
+    public static String[] getUrlArr() {
+        return urlArr;
+    }
 }

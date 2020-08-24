@@ -4,21 +4,19 @@ package com.qf.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 /**
  * @author RRReoru
  * @version 1.0
  * @date 2020/8/22 0022 上午 9:34
  */
-public class BeanUtils<T, V> {
+public class BeanUtils {
     private BeanUtils() {
     }
 
     public static <T, V> T copy(V origin, Class<T> target) {
         // 父类的所有字段
         Field[] pFields = origin.getClass().getDeclaredFields();
-
 
 
         T t = null;
@@ -31,13 +29,7 @@ public class BeanUtils<T, V> {
                 Object o = pField.get(origin);
                 setMethod.invoke(t, o);
             }
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
         }
         return t;

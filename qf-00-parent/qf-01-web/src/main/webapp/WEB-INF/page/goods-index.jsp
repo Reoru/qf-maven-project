@@ -18,7 +18,11 @@
 <script src="webjars/jquery/3.4.1/dist/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/layui/layui.js"></script>
 <body>
-<h1> ${sessionScope.userInfo.username}，欢迎!</h1>
+<h1>
+    <c:if test="${empty sessionScope.userInfo}">游客，</c:if>
+    <c:if test="${not empty sessionScope.userInfo}">${sessionScope.userInfo.username}，</c:if>
+    欢迎您!
+</h1>
 
 <h1>商品列表：</h1>
 <c:forEach items="${sessionScope.goodsList}" var="goods" varStatus="status">
@@ -43,18 +47,27 @@
 </c:forEach>
 
 <button id="car" type="button" class="layui-btn layui-btn-primary" hidden>我的购物车</button>
-<button onclick="window.location.href='${pageContext.request.contextPath}/go'" type="button"
-        class="layui-btn layui-btn-primary" hidden>去登陆
-</button>
+<c:if test="${ empty sessionScope.userInfo}">
+    <button onclick="window.location.href='${pageContext.request.contextPath}/go'" type="button"
+            class="layui-btn layui-btn-primary" hidden>去登陆
+    </button>
+</c:if>
 <br>
 <br>
 <c:if test="${not empty sessionScope.userInfo}">
     <c:forEach var="permission" items="${sessionScope.userInfo.permissions}">
-        <c:if test="${permission eq '/showGoods' or permission eq '/*'}">
-            <button type="button" id="add" class="layui-btn layui-btn-radius">新增商品</button>
-            <button type="button" id="edit" class="layui-btn layui-btn-normal layui-btn-radius">修改商品</button>
+        <c:if test="${permission eq '/showGoods' or permission eq '/*' or permission eq '/test'}">
+            <%
+                request.setAttribute("canDo", true);
+            %>
         </c:if>
     </c:forEach>
+</c:if>
+
+<c:if test="${not empty requestScope.canDo and requestScope.canDo}">
+    <button type="button" id="add" class="layui-btn layui-btn-radius">新增商品</button>
+    <button type="button" id="edit" class="layui-btn layui-btn-normal layui-btn-radius">修改商品</button>
+    <a href="${pageContext.request.contextPath}/test">测试权限</a>
 </c:if>
 
 
@@ -85,7 +98,7 @@
     }
 
     $("#car").click(function () {
-        window.location.href = "${pageContext.request.contextPath}/goodsCar?m=show&username=" + ${sessionScope.userInfo.username};
+        window.location.href = "${pageContext.request.contextPath}/goodsCar?m=show&username=" + "${sessionScope.userInfo.username}";
     });
 
 </script>
